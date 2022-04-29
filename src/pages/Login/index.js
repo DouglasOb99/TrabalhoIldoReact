@@ -1,65 +1,49 @@
-import React from 'react'
-import {Text, View, Image, TextInput, TouchableOpacity, StyleSheet} 
-from 'react-native'
-import  { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Ionicon from 'react-native-vector-icons/Ionicons'
+import { styles } from './styles';
 
 
-const TelaInicial = ()=>{
-    const navigation = useNavigation();
-    return(
-    <View style={style.backgroud
-       
-    }>        
-    <Image
-        source={require('./src/img/logo.png')}
-        style={{width: '80%'}}
-        resizeMode='center'
-    />
-    <TextInput
-        style={style.input}
-        placeholder='Usuario'
-        autoCorrect={false}
-        onChangeText={()=>{}}>
-    </TextInput>
+export default function Login(){
 
-    <TextInput
-        style={style.input}
-        placeholder='Senha'
-        autoCorrect={false}
-        onChangeText={()=>{}}>
-    </TextInput>
+    const navigation = useNavigation()
+    const [ user, setUser ] = useState('')
+    const [ password, setPassword ] = useState('')
 
-    <TouchableOpacity onPress={()=> navigation.navigate("Home")}>
-        <Text>Logar</Text>
-    </TouchableOpacity>
-        
-    </View>
-    
-    ) 
-};
+    const login = () => {
 
-const style = StyleSheet.create({
-    backgroud:{
-        flex:1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#19cc'
-    },
-    input:{
-        
-        width: 300,
-        margin: 5,
-        backgroundColor: '#fff',
-        justifyContent: 'center'
-    },
-
-    container :{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '90%',
-        paddingBottom: 20
-
+        if(user === ''){
+            Alert.alert('Forneça um usuário válido!')
+            return;
+        }
+        if(password === ''){
+            Alert.alert('Forneça uma senha válida!')
+            return;
+        }
+        navigation.navigate('Home')
     }
-});
-export default TelaInicial;
+
+    return (
+        <SafeAreaView style={styles.container} >      
+            <Ionicon name='person' size={70} color='#00d' />
+            <TextInput style={styles.input} 
+                placeholder='usuario'
+                value={user}
+                onChangeText={setUser}
+            />
+            <TextInput style={styles.input} 
+                placeholder='senha'
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+            />
+            <TouchableOpacity  
+                onPress={login}
+                style={styles.button} >
+                <Text style={styles.buttonText} >Entrar</Text>
+            </TouchableOpacity>
+        </SafeAreaView>
+    );
+}

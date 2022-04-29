@@ -1,28 +1,48 @@
-import 'react-native-gesture-handler';
-
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { AppLoading } from 'expo';
-import { useFonts, Anton_400Regular} from '@expo-google-fonts/anton';
 
-import Routes from './src/router';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Login from './src/pages/Login';
+import Home from './src/pages/Home';
+import DetalhesProduto from './src/pages/Produtos';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-  let [fontsLoaded] = useFonts({
-    Anton_400Regular,
-  });
-
-
-  if(!fontsLoaded){
-    return <AppLoading />;
-  }
-
-
   return (
-    <>
-      <StatusBar style="light" backgroundColor="#000" translucent={true} />
-      <Routes/>
-    </>
+
+      <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name='Login'
+              component={Login}
+              options={{
+                headerShown:false
+              }}
+            />
+             <Stack.Screen
+              name='Home'
+              component={Home}
+              options={{
+                title:' Lista de Produtos',
+                headerStyle:{
+                  backgroundColor: '#00d',
+                },
+                headerTintColor:'#fff'
+              }}
+            />
+            <Stack.Screen
+              name='Produto'
+              component={DetalhesProduto}
+              options={{
+                title:'Detalhes do Produto',
+                headerStyle:{
+                  backgroundColor: '#00d',
+                },
+                headerTintColor:'#fff'
+              }}
+            />
+          </Stack.Navigator>
+      </NavigationContainer>   
   );
 }
